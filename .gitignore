@@ -1,0 +1,29 @@
+# Python specific
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+flask_env/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE specific
+.vscode/
+*.code-workspace
+
+# Other
+*.swp
+*.swo
+*.bak
+*.tmp
+*.old
+
+# JSON feedback
+Learning/feedback.json

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+
+        /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container for Thank You message */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Header */
+h2 {
+    color: #28a745;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Paragraph */
+p {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* Home link */
+a {
+    display: inline-block;
+    font-size: 18px;
+    color: #4CAF50;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+/* Home link hover effect */
+a:hover {
+    background-color: #45a049;
+    color: white;
+    text-decoration: none;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Thank You for Your Feedback!</h2>
+        <p>We appreciate your feedback and will use it to improve our service.</p>
+        <a href="/">Go to Home</a>
+    </div>
+</body>
+</html>

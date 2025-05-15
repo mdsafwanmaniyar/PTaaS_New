@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerability Scanner</title>
+    <style>
+        /* Basic Reset and Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Page Title */
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Form Styling */
+        form {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Navigation Styling */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* About Section Styling */
+        #about {
+            background-color: #fff;
+            padding: 50px 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        /* Modal Popup Styling */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .loading-spinner {
+            border: 8px solid #f3f3f3; /* Light gray background */
+            border-top: 8px solid #4CAF50; /* Green spinner */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        .loading-message {
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        /* Spinner Animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script>
+        // Function to show the loading popup and start the real-time countdown timer
+        function showLoading() {
+            document.getElementById('loadingModal').style.display = 'block';
+
+            // Set countdown time in seconds (1 minute = 60 seconds)
+            let countdown = 60;
+            const countdownElement = document.getElementById('countdown');
+            const interval = setInterval(() => {
+                // Calculate minutes and seconds
+                const minutes = Math.floor(countdown / 60);
+                const seconds = countdown % 60;
+
+                // Update the countdown text
+                countdownElement.textContent = `${minutes}m ${seconds < 10 ? '0' : ''}${seconds}s`;
+
+                // Decrement the countdown
+                countdown--;
+
+                // Stop the timer when it reaches zero
+                if (countdown < 0) {
+                    clearInterval(interval);
+                    countdownElement.textContent = "almost done";
+                }
+            }, 1000); // 1000ms = 1 second
+        }
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">Penetration Testing as a Service</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Title and Form -->
+    <h1>Vulnerability Scanner</h1>
+    <form action="/scan" method="POST" onsubmit="showLoading()">
+        <label for="url">Enter URL to Scan:</label>
+        <input type="text" id="url" name="url" required>
+
+        <label for="scan_option">The Scanning which are performed on URL:</label>
+        <ol>
+            <li>Open Ports</li>
+            <li>SQL Injection</li>
+            <li>XSS Vulnerable</li>
+            <li>SSL/TLS configuration</li>
+        </ol>
+        
+
+        <button type="submit">Start Scan</button>
+    </form>
+
+    <!-- Loading Popup Modal -->
+    <div id="loadingModal" class="modal">
+        <div class="modal-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-message">Please wait while we scan the web...</p>
+            <p class="loading-message">Estimated time remaining: <span id="countdown">...</span></p>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About the Project</h2>
+        <p>Penetration testing, which involves controlled attacks on computer systems to evaluate their security, is crucial for enhancing defences against cyber threats. Given the growing shortage of skilled cybersecurity professionals and the complex nature of current automated penetration testing methods often reliant on exploit models this project explored using Reinforcement Learning (RL) to automate the process. Unlike traditional methods, RL does not require a model of the environment but learns optimal attack policies through interaction.</p>
+    </section>
+</body>
+</html>

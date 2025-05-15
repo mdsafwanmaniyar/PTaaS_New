@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results</title>
+    <style>
+        /* Basic Reset and Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Page Title */
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Container for Scan Results */
+        .result-container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        /* Raw Data and Vulnerability Information Styling */
+        .vulnerability {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        /* AI Analysis Button Styling */
+        .ai-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 20px 0;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .ai-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Raw Data Section Styling */
+        .raw-data {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            color: #555;
+            display: none; /* Hidden by default */
+        }
+
+        /* Styling for Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        pre {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            word-wrap: break-word; /* Ensures words break to fit within container */
+            white-space: pre-wrap; /* Keeps formatting but wraps long lines */
+            overflow-x: auto; /* Adds horizontal scroll for overflow */
+        }
+
+        /* About Section Styling */
+        #about {
+            background-color: #fff;
+            padding: 50px 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        /* Basic Body Styling */
+        .feedback-section {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .feedback-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .feedback-section form {
+            display: block;
+            text-align: left;
+        }
+
+        .feedback-section label {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .feedback-section input, 
+        .feedback-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .feedback-section textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .feedback-section button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .feedback-section button:hover {
+            background-color: #45a049;
+        }
+
+        /* Thank you message styling */
+        .thank-you-message {
+            text-align: center;
+            padding: 20px;
+            background-color: #e4f7e4;
+            border-radius: 8px;
+        }
+
+        .thank-you-message h3 {
+            color: #4CAF50;
+        }
+
+        .thank-you-message p {
+            color: #555;
+        }
+
+
+    </style>
+    <script>
+        // Function to toggle between Raw Data and AI Explanation visibility and update button text
+        function toggleScanResult() {
+            const rawData = document.getElementById('rawData');
+            const aiExplanation = document.getElementById('aiExplanation');
+            const button = document.getElementById('toggleButton');
+            
+            if (rawData.style.display === 'none') {
+                rawData.style.display = 'block';
+                aiExplanation.style.display = 'none';
+                button.textContent = 'Back to AI Gen Info'; // Change button text to "Back to AI Gen Info"
+            } else {
+                rawData.style.display = 'none';
+                aiExplanation.style.display = 'block';
+                button.textContent = 'View Raw Data'; // Change button text to "View Raw Data"
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">Penetration Testing as a Service</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Title -->
+    <h1>Scan Results</h1>
+    
+    <!-- Container for Scan Results -->
+    <div class="result-container">
+        <!-- AI Explanation Section (Visible by default) -->
+        <div id="aiExplanation" class="vulnerability">
+            <h2>AI-Generated Explanation</h2>
+            {% for vuln in vulnerabilities %}
+                <div class="vulnerability">
+                    <h2>{{ vuln.type }}</h2>
+                    <div>
+                        <strong>Details:</strong>
+                        <p>{{ vuln.details }}</p>
+
+                        <strong>Explanation:</strong>
+                        <p>{{ vuln.explanation }}</p>
+
+                        <strong>How to Fix:</strong>
+                        <p>{{ vuln.fix }}</p>
+
+                        <strong>Likelihood of Exploitation:</strong>
+                        <p>{{ vuln.likelihood if vuln.likelihood else 'Not provided' }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Button to Show Raw Scan Results -->
+        <button id="toggleButton" class="ai-button" onclick="toggleScanResult()">View Raw Data</button>
+
+        <!-- Raw Data Section (Hidden by default) -->
+        <div id="rawData" class="raw-data">
+            <h2>Raw Scan Results</h2>
+            <pre>{{ raw_scan_result }}</pre>
+        </div>
+    </div>
+
+    
+
+    <!-- Back to Home Link -->
+    <a href="/" style="display: block; text-align: center; margin-top: 20px; color: #4CAF50; text-decoration: none;">Go back to home</a>
+
+    <!-- Feedback Form -->
+    <!-- Feedback Section -->
+    {% if not feedback_submitted %}
+    <div class="feedback-section">
+        <h2>Feedback</h2>
+        <form action="/submit_feedback" method="POST">
+            <label for="rating">Rating (1-5):</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" required>
+            
+            <label for="accuracy">How accurate was the scan?</label>
+            <input type="number" id="accuracy" name="accuracy" min="1" max="5" required>
+            
+            <label for="comments">Additional Comments:</label>
+            <textarea id="comments" name="comments" rows="4" cols="50" required></textarea>
+            
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+    {% else %}
+        <div class="thank-you-message">
+            <h3>Thank you for your feedback!</h3>
+             <p>We appreciate your time and input. Your feedback helps us improve the service.</p>
+        </div>
+    {% endif %}
+
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About the Project</h2>
+        <p>Penetration testing, which involves controlled attacks on computer systems to evaluate their security, is crucial for enhancing defences against cyber threats. Given the growing shortage of skilled cybersecurity professionals and the complex nature of current automated penetration testing methods often reliant on exploit models this project explored using Reinforcement Learning (RL) to automate the process. Unlike traditional methods, RL does not require a model of the environment but learns optimal attack policies through interaction.</p>
+    </section>
+</body>
+</html>
